@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./html-calculator.css" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
+			rel="stylesheet"
+		/>
+
+		<title>Calculadora HTML</title>
+	</head>
+	<body>
+		<header>
+			<h1>Calculadora HTML</h1>
+		</header>
+		<section id="calculator" class="calculator">
+			<div class="row h80">
+				<div class="display w100 black"><span id="display">0</span></div>
+			</div>
+			<div class="row">
+				<div class="cell-left w50 br">
+					<button onclick="cleanAll(true)" class="text-left">AC</button>
+				</div>
+				<div class="cell w25 br">
+					<button onclick="getLastResult()">
+						<img src="./icon-back.svg" alt="back" />
+					</button>
+				</div>
+				<div class="cell w25 orange">
+					<button onclick="getOperator('/')" class="text-left">/</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell w25 br">
+					<button onclick="getNumber(7)">7</button>
+				</div>
+				<div class="cell w25 br"><button onclick="getNumber(8)">8</button></div>
+				<div class="cell w25 br"><button onclick="getNumber(9)">9</button></div>
+				<div class="cell w25 orange">
+					<button onclick="getOperator('x')" class="text-left">x</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell w25 br"><button onclick="getNumber(4)">4</button></div>
+				<div class="cell w25 br"><button onclick="getNumber(5)">5</button></div>
+				<div class="cell w25 br"><button onclick="getNumber(6)">6</button></div>
+				<div class="cell w25 orange">
+					<button onclick="getOperator('-')" class="text-left">-</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell w25 br"><button onclick="getNumber(1)">1</button></div>
+				<div class="cell w25 br"><button onclick="getNumber(2)">2</button></div>
+				<div class="cell w25 br"><button onclick="getNumber(3)">3</button></div>
+				<div class="cell w25 orange">
+					<button onclick="getOperator('+')" class="text-left">+</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell w50 br"><button onclick="getNumber(0)">0</button></div>
+				<div class="cell w25 br">
+					<button onclick="getDecimal()" class="text-left">,</button>
+				</div>
+				<div class="cell w25 orange">
+					<button onclick="getResult()" class="text-left">=</button>
+				</div>
+			</div>
+		</section>
+	</body>
+
+	<script src="html-calculator.js"></script>
+</html>
