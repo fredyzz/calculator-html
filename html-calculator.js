@@ -148,9 +148,9 @@ const calculateResult = () => {
 				parseFloat(auxDecimalNumber / 10 ** auxDecimalNumber.length)
 		} else {
 			if (lastResult !== null) {
-				firstNumber = lastResult
+				secondNumber = lastResult
 			} else {
-				firstNumber = 0
+				secondNumber = 0
 			}
 		}
 		auxNumber = ''
