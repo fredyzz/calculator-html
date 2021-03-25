@@ -115,3 +115,8 @@ button img {
 	background: #fd8c0e;
 	color: white;
 }
+
+.pressed {
+	background: #a8a3a3;
+	border: 1px solid rgb(82, 79, 79);
+}

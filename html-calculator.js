@@ -1,143 +1,217 @@
-const DISPLAY = document.getElementById('display')
+// ----- *** config & initial settings *** ------
 
-let firstNumber = null
-let auxFirstNumber = ''
+const MAX_DECIMAL_NUMBERS = 2
+let auxNumber = ''
 let auxDecimalNumber = ''
-let auxFirstDecimal = false
-let auxSecondDecimal = false
+let firstNumber = null
 let secondNumber = null
-let auxSecondNumber = ''
+let hasDecimal = false
 let operator = null
 let lastResult = null
+let lastResultIsPressed = false
+let operatorIsPressed = false
 
+// ----- *** getting elements *** ------
+
+const getElementByName = (name) =>
+	document.querySelector('[name =' + name + ']')
+
+const DISPLAY = document.getElementById('display')
+const LAST_RESULT_BUTTON = getElementByName('LAST_RESULT_BUTTON')
+const DECIMAL_BUTTON = getElementByName('DECIMAL_BUTTON')
+const RESULT_BUTTON = getElementByName('RESULT_BUTTON')
+const CLEAN_ALL_BUTTON = getElementByName('CLEAN_ALL_BUTTON')
+OPERATOR_BUTTONS = []
+NUMBER_BUTTONS = []
+
+const OPERATOR_BUTTON_NAMES = [
+	'DIVISION_BUTTON',
+	'MULTIPLICATION_BUTTON',
+	'ADD_BUTTON',
+	'SUBTRACT_BUTTON'
+]
+
+OPERATOR_BUTTON_NAMES.forEach((buttonName) => {
+	OPERATOR_BUTTONS.push(getElementByName(buttonName))
+})
+
+for (let buttonNumber = 0; buttonNumber < 10; buttonNumber++) {
+	NUMBER_BUTTONS.push(getElementByName('BUTTON_' + buttonNumber))
+}
+
+// ----- *** adding listeners to buttons *** ------
+
+OPERATOR_BUTTONS.forEach((button) => {
+	button.addEventListener('click', (e) => {
+		setPressButton(getElementByName(button.name), true)
+		setOperator(button.value)
+	})
+})
+
+NUMBER_BUTTONS.forEach((button) => {
+	button.addEventListener('click', (e) => {
+		setNumber(button.value)
+	})
+})
+
+LAST_RESULT_BUTTON.addEventListener('click', () => getLastResult())
+DECIMAL_BUTTON.addEventListener('click', () => setDecimal())
+RESULT_BUTTON.addEventListener('click', () => calculateResult())
+CLEAN_ALL_BUTTON.addEventListener('click', () => cleanAll(true))
+
+// ----- *** display functions *** ------
 const show = (text) => (DISPLAY.innerHTML = text)
 
-const getNumber = (numb) => {
-	//debugger
-	if (operator === null) {
-		if (auxFirstDecimal === true) {
-			auxDecimalNumber = auxDecimalNumber.toString() + numb.toString()
-			show(auxFirstNumber + '.' + auxDecimalNumber)
-		} else {
-			auxFirstNumber = auxFirstNumber.toString() + numb.toString()
-			show(auxFirstNumber)
-		}
+const setPressButton = (element, isPressed) => {
+	if (isPressed) {
+		element.classList.add('pressed')
 	} else {
-		if (auxSecondDecimal === true) {
-			auxDecimalNumber = auxDecimalNumber.toString() + numb.toString()
-			show(
-				firstNumber +
-					' ' +
-					operator +
-					' ' +
-					auxSecondNumber +
-					',' +
-					auxDecimalNumber
-			)
-		} else {
-			auxSecondNumber = auxSecondNumber.toString() + numb.toString()
-			show(firstNumber + ' ' + operator + ' ' + auxSecondNumber)
-		}
+		element.classList.remove('pressed')
 	}
 }
 
-const getOperator = (op) => {
-	if (auxFirstNumber === null && firstNumber === null && lastResult === null) {
-		firstNumber = 0
-	} else if (
-		auxFirstNumber === '' &&
-		firstNumber === null &&
-		lastResult !== null
-	) {
-		firstNumber = lastResult
-	} else {
-		firstNumber = parseInt(auxFirstNumber) + parseFloat(auxDecimalNumber / 10)
-		auxFirstDecimal = false
-		auxDecimalNumber = ''
-	}
-
-	operator = op
-
-	show(firstNumber + ' ' + operator)
-}
-
-const getDecimal = () => {
-	if (auxFirstDecimal === false || auxSecondDecimal === false) {
-		if (operator === null) {
-			if (auxFirstNumber === null && firstNumber === null) {
-				auxFirstNumber = 0
-			}
-			show(auxFirstNumber + ',')
-			auxFirstDecimal = true
-		} else {
-			if (auxSecondNumber === null && secondNumber === null) {
-				auxSecondNumber = 0
-			}
-
-			show(firstNumber + ' ' + operator + ' ' + auxSecondNumber + ',')
-			auxSecondDecimal = true
-		}
-	}
+const setUnPressAllButtons = () => {
+	;[...OPERATOR_BUTTONS, LAST_RESULT_BUTTON, DECIMAL_BUTTON].forEach((button) =>
+		button.classList.remove('pressed')
+	)
 }
 
 const cleanAll = (includeDisplay) => {
 	firstNumber = null
 	secondNumber = null
-	auxFirstNumber = ''
-	auxSecondNumber = ''
+	auxNumber = ''
 	auxDecimalNumber = ''
-	auxFirstDecimal = false
-	auxSecondDecimal = false
-
+	hasDecimal = false
+	lastResultIsPressed = false
+	operatorIsPressed = false
 	operator = null
+	setUnPressAllButtons()
+
 	if (includeDisplay) {
 		DISPLAY.innerHTML = '0'
 	}
 }
 
-const getResult = () => {
-	secondNumber = parseInt(auxSecondNumber) + parseFloat(auxDecimalNumber / 10)
-	auxSecondDecimal = false
-	auxDecimalNumber = ''
-	if (firstNumber != null && (secondNumber !== null) & (operator != null)) {
-		switch (operator) {
-			case '/':
-				if (secondNumber === 0) {
-					result = 'err'
-				} else {
-					result = firstNumber / secondNumber
-				}
-				break
-			case 'x':
-				result = firstNumber * secondNumber
-				break
-			case '+':
-				result = firstNumber + secondNumber
-				break
-			case '-':
-				result = firstNumber - secondNumber
-				break
-			default:
-				break
+// ----- *** data entry functions *** ------
+const setNumber = (numb) => {
+	operatorIsPressed = false
+	if (hasDecimal === false) {
+		auxNumber = auxNumber.toString() + numb.toString()
+		show(auxNumber)
+	} else {
+		if (auxNumber === '') {
+			auxNumber = '0'
+		}
+		if (auxDecimalNumber.length < MAX_DECIMAL_NUMBERS) {
+			auxDecimalNumber = auxDecimalNumber.toString() + numb.toString()
 		}
 
-		cleanAll()
-		if (isNaN(result)) {
-			firstNumber = null
-			lastResult = null
-			show(result)
+		show(auxNumber + '.' + auxDecimalNumber)
+	}
+}
+
+const setOperator = (op) => {
+	if (!firstNumber && !operatorIsPressed) {
+		if (auxNumber !== '' || auxDecimalNumber !== '') {
+			firstNumber =
+				parseInt(auxNumber) +
+				parseFloat(auxDecimalNumber / 10 ** auxDecimalNumber.length)
 		} else {
-			if (!Number.isInteger(result)) {
-				result = parseFloat(result.toFixed(2))
+			if (lastResult !== null) {
+				firstNumber = lastResult
+			} else {
+				firstNumber = 0
 			}
-			lastResult = result
-			show(result)
+		}
+		auxNumber = ''
+		auxDecimalNumber = ''
+		hasDecimal = false
+		operator = op
+	}
+
+	if (firstNumber && !operatorIsPressed) {
+		operator = op
+	}
+}
+
+const setDecimal = () => {
+	hasDecimal = true
+	show(auxNumber + '.')
+}
+
+// ----- *** calc functions *** ------
+const calculateResult = () => {
+	if (!operatorIsPressed) {
+		if (auxNumber !== '' || auxDecimalNumber !== '') {
+			secondNumber =
+				parseInt(auxNumber) +
+				parseFloat(auxDecimalNumber / 10 ** auxDecimalNumber.length)
+		} else {
+			if (lastResult !== null) {
+				firstNumber = lastResult
+			} else {
+				firstNumber = 0
+			}
+		}
+		auxNumber = ''
+		auxDecimalNumber = ''
+		hasDecimal = false
+
+		if (firstNumber != null && secondNumber !== null && operator != null) {
+			switch (operator) {
+				case '/':
+					if (secondNumber === 0) {
+						result = 'err'
+					} else {
+						result = firstNumber / secondNumber
+					}
+					break
+				case 'x':
+					result = firstNumber * secondNumber
+					break
+				case '+':
+					result = firstNumber + secondNumber
+					break
+				case '-':
+					result = firstNumber - secondNumber
+					break
+				default:
+					break
+			}
+
+			cleanAll()
+			if (isNaN(result)) {
+				firstNumber = null
+				lastResult = null
+				show(result)
+			} else {
+				if (!Number.isInteger(result)) {
+					result = parseFloat(result.toFixed(2))
+				}
+				lastResult = result
+				show(result)
+			}
 		}
 	}
 }
 
 const getLastResult = () => {
-	if (lastResult !== null) {
-		getNumber(lastResult)
+	if (!lastResultIsPressed) {
+		setPressButton(LAST_RESULT_BUTTON, true)
+		if (lastResult !== null) {
+			if (!firstNumber) {
+				firstNumber = lastResult
+			} else {
+				secondNumber = lastResult
+			}
+		} else {
+			if (!firstNumber) {
+				firstNumber = 0
+			} else {
+				secondNumber = 0
+			}
+		}
+		show(lastResult)
+		lastResultIsPressed = true
 	}
 }

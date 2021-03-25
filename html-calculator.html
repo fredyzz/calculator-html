@@ -22,50 +22,70 @@
 			</div>
 			<div class="row">
 				<div class="cell-left w50 br">
-					<button onclick="cleanAll(true)" class="text-left">AC</button>
+					<button class="text-left" name="CLEAN_ALL_BUTTON">AC</button>
 				</div>
 				<div class="cell w25 br">
-					<button onclick="getLastResult()">
+					<button name="LAST_RESULT_BUTTON">
 						<img src="./icon-back.svg" alt="back" />
 					</button>
 				</div>
 				<div class="cell w25 orange">
-					<button onclick="getOperator('/')" class="text-left">/</button>
+					<button class="text-left" name="DIVISION_BUTTON" value="/">/</button>
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell w25 br">
-					<button onclick="getNumber(7)">7</button>
+					<button value="7" name="BUTTON_7">7</button>
 				</div>
-				<div class="cell w25 br"><button onclick="getNumber(8)">8</button></div>
-				<div class="cell w25 br"><button onclick="getNumber(9)">9</button></div>
-				<div class="cell w25 orange">
-					<button onclick="getOperator('x')" class="text-left">x</button>
-				</div>
-			</div>
-			<div class="row">
-				<div class="cell w25 br"><button onclick="getNumber(4)">4</button></div>
-				<div class="cell w25 br"><button onclick="getNumber(5)">5</button></div>
-				<div class="cell w25 br"><button onclick="getNumber(6)">6</button></div>
-				<div class="cell w25 orange">
-					<button onclick="getOperator('-')" class="text-left">-</button>
-				</div>
-			</div>
-			<div class="row">
-				<div class="cell w25 br"><button onclick="getNumber(1)">1</button></div>
-				<div class="cell w25 br"><button onclick="getNumber(2)">2</button></div>
-				<div class="cell w25 br"><button onclick="getNumber(3)">3</button></div>
-				<div class="cell w25 orange">
-					<button onclick="getOperator('+')" class="text-left">+</button>
-				</div>
-			</div>
-			<div class="row">
-				<div class="cell w50 br"><button onclick="getNumber(0)">0</button></div>
 				<div class="cell w25 br">
-					<button onclick="getDecimal()" class="text-left">,</button>
+					<button value="8" name="BUTTON_8">8</button>
+				</div>
+				<div class="cell w25 br">
+					<button value="9" name="BUTTON_9">9</button>
 				</div>
 				<div class="cell w25 orange">
-					<button onclick="getResult()" class="text-left">=</button>
+					<button class="text-left" name="MULTIPLICATION_BUTTON" value="*">
+						x
+					</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell w25 br">
+					<button value="4" name="BUTTON_4">4</button>
+				</div>
+				<div class="cell w25 br">
+					<button value="5" name="BUTTON_5">5</button>
+				</div>
+				<div class="cell w25 br">
+					<button value="6" name="BUTTON_6">6</button>
+				</div>
+				<div class="cell w25 orange">
+					<button class="text-left" name="SUBTRACT_BUTTON" value="-">-</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell w25 br">
+					<button value="1" name="BUTTON_1">1</button>
+				</div>
+				<div class="cell w25 br">
+					<button value="2" name="BUTTON_2">2</button>
+				</div>
+				<div class="cell w25 br">
+					<button value="3" name="BUTTON_3">3</button>
+				</div>
+				<div class="cell w25 orange">
+					<button class="text-left" name="ADD_BUTTON" value="+">+</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell w50 br">
+					<button value="0" name="BUTTON_0">0</button>
+				</div>
+				<div class="cell w25 br">
+					<button class="text-left" name="DECIMAL_BUTTON">,</button>
+				</div>
+				<div class="cell w25 orange">
+					<button class="text-left" name="RESULT_BUTTON">=</button>
 				</div>
 			</div>
 		</section>
