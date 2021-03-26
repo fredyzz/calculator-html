@@ -166,7 +166,7 @@ const calculateResult = () => {
 						result = firstNumber / secondNumber
 					}
 					break
-				case 'x':
+				case '*':
 					result = firstNumber * secondNumber
 					break
 				case '+':
